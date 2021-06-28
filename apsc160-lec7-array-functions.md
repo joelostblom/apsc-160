@@ -1,7 +1,6 @@
 Lecture 7: Functions that operate on arrays
 ================
 
--   [TODOs](#todos)
 -   [Intro](#intro)
 -   [Today’s new skills](#todays-new-skills)
 -   [Review of functions and arrays](#review-of-functions-and-arrays)
@@ -23,20 +22,6 @@ Lecture 7: Functions that operate on arrays
         orignial](#modyfying-each-element-of-an-array-without-overwriting-the-orignial)
 -   [Which new skills did we learn
     today](#which-new-skills-did-we-learn-today)
-
-# TODOs
-
--   stop and ask for questions every now and then
-
--   live codign good to show erorrs nad how to fix
-
--   I will just use slido here ,track student participation in live
-    question and give grades
-
--   It would be cool to include a handdrawn schematic somewhere, maybe
-    with my tablet as an overlay of the screen?
-
--   More fun story than adding numbers, tell a story throughout
 
 # Intro
 
