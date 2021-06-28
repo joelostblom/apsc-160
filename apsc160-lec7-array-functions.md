@@ -25,12 +25,14 @@ Lecture 7: Functions that operate on arrays
 
 # Intro
 
-Good afternoon everyone and welcome to our 7th lecture! Today we will be
-learning how to create functions that operate on arrays. You can find
-the lecture notes online as usual, and I also pasted the link in the
-chat right now. Feel free to add your own comments to the lecture notes,
-but I recommend that you follow along with what I am doing rather than
-read the notes during the lecture since this is more effective for your
+Good afternoon everyone and welcome to our 7th lecture together! Today
+we will be learning how to create functions that operate on arrays. You
+can find the lecture notes online as usual, and I also pasted the link
+in the chat right now
+<https://github.com/joelostblom/apsc-interview/blob/main/apsc160-lec7-array-functions.md>.
+Feel free to use these when you are taking notes yourself, but I
+recommend that you follow along with what I am doing rather than read
+the notes during the lecture since this is more effective for your
 learning. If there is something you don’t understand, just raise your
 hand and ask a question or type it out in chat and I will get to in a
 few minutes. I also encourage you to turn on your camera if possible,
@@ -56,7 +58,8 @@ that are important prerequisites for today’s class.
 Last lecture we covered the why and how of functions, so let’s get
 active right away by answering the following (you can select multiple).
 We will use the same polling system as before to record answers to you
-questions, which I just posted in the chat <http://etc.ch/o6Kn>.
+questions, and you have that link already in the lecture notes, but just
+in case I also posted it in chat <http://etc.ch/o6Kn>.
 
 **Q: What are they main benefits of using separate functions instead of
 putting all the code inside `main`**?
@@ -143,7 +146,8 @@ update our addition function. Let’s start by updating its interface and
 description to reflect its new functionality. Remember that it is good
 to write out the function description first so that you have a
 conceptual understanding of what your function should do and which
-parameters are necessary for this task.
+parameters are necessary for this task before moving on to the specific
+implementation.
 
 ``` c
 #include <stdio.h>
@@ -175,9 +179,9 @@ To keep things simple, let’s start by creating the array inside the
 addition function. **Q: Help me out, do you remember the syntax for
 creating an array with the values 1, 2, and 3?**
 
-1.  `values[] = {1, 2, 3}`
-2.  `values() = [1, 2, 3]`
-3.  `values{} = (1, 2, 3)`
+1.  `int values[] = {1, 2, 3};`
+2.  `int values() = [1, 2, 3];`
+3.  `int values{} = (1, 2, 3);`
 
 <details>
 <summary>
@@ -276,6 +280,8 @@ in data from disk, so that the values vary depending on which data file
 we read in. In order to do this we need to master today’s main topic,
 how to pass arrays to functions.
 
+<!-- But before doing that, are there any questions on what we just went through? -->
+
 # Passing arrays to functions
 
 How can we modify our program so that the array is created in the main
@@ -344,10 +350,14 @@ Click here to view the solution
 The correct answer is 2, `int *` is how we indicate that a variable is a
 pointer to an integer. We talked about pointers earlier in this course
 and you might remember that we encountered a similar error when we tried
-to print a pointer value. Let’s refresh that!
+to print a pointer value.
 </details>
 
 <br>
+
+<!-- Details in lecture notes -->
+
+------------------------------------------------------------------------
 
 ``` c
 #include <stdio.h>
@@ -369,6 +379,8 @@ This throws a very similar warning to what we just saw with the arrays.
 warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘int *’ 
 ```
 
+------------------------------------------------------------------------
+
 To fix this example, we would make need to make sure that `printf` is
 *expecting to receive a pointer*, by using `printf("%p", age_pointer);`.
 Likewise we need to change our array addition function so that *it also
@@ -379,7 +391,7 @@ when specifying the input parameter:
 #include <stdio.h>
 
 
-int add_values(int values[]) {
+int add_values(int *values) {
     /* Add multiple values
      
     Parameters
@@ -423,6 +435,8 @@ That’s it! You know the basics of how to pass arrays as arguments to
 functions, great job so far! Pat yourself on the shoulder and let’s
 continue on to see how we can upgrade our functions with a few best
 practices and conveniences.
+
+<!-- But before doing that, are there any questions? Let's have our usual check in in the participation panel, green check mark if you feel like you are following along or red cross if it is too fast. Specific question please raise your hand or type in chat. -->
 
 ## Best practices when passing arrays to functions
 
@@ -580,6 +594,8 @@ A suitable test for our addition function could look like the following
     int test_values[] = {1, 2, 3};
     assert(add_values(test_values, 3) == 6);
 
+<!-- But before doing that, are there any questions? -->
+
 ## Modifying values of an input array
 
 So far we have looked at how we can pass an array pointer to calculate
@@ -596,23 +612,21 @@ modify the formal and actual parameters:
 #include <stdio.h>
 
 
-void multiply_values(int values[], size_t size, int multiplier) {
-    /* Multiply each number in an array with a constant
+void multiply_values(int values[], int size, int multiplier) {
+    /* Multiply all values in an array
      
-    Parameters
-        values: Array with values to be added.
-        size: The size of the array
-        multiplier: The value to multiply the array with
+     Parameters
+        values: Array with values to be multiplied
+        size: The array size
+        multiplier: Multiplier for the array values
     */
     
-    // Multiplication of array values will be added here
+    // Code for multiplying array and printing the results
 }
 
 int main() {
-    int my_values[] = {1, 2, 3};
-    size_t my_values_size = sizeof my_values / sizeof my_values[0];
-    
-    multiply_values(my_values, my_values_size, 2);
+    int my_values[] = {1, 2, 3, 4};
+    multiply_values(my_values, 4, 2);
 
     return 0;
 }
@@ -627,12 +641,13 @@ value in the array:
 #include <stdio.h>
 
 
-void multiply_values(int values[], size_t size, int multiplier) {
-    /* Multiply each number in an array with a constant
+void multiply_values(int values[], int size, int multiplier) {
+    /* Multiply all values in an array
      
-    Parameters
-        values: Array with values to be added.
-        size: The size of the array
+     Parameters
+        values: Array with values to be multiplied
+        size: The array size
+        multiplier: Multiplier for the array values
     */
     for (int i = 0; i < size; i++) {
         values[i] = values[i] * multiplier;
@@ -642,10 +657,9 @@ void multiply_values(int values[], size_t size, int multiplier) {
 }
 
 int main() {
-    int my_values[] = {1, 2, 3};
-    size_t my_values_size = sizeof my_values / sizeof my_values[0];
+    int my_values[] = {1, 2, 3, 4};
     
-    multiply_values(my_values, my_values_size, 2);
+    multiply_values(my_values, 4, 2);
 
     return 0;
 }
@@ -672,8 +686,9 @@ understand what happens.
 
 <br>
 
-If we append `return values` to the multiplication function, we will see
-a familiar error.
+If we append `return values` to the multiplication function, and change
+the return type to `int` which is what we would expect from a new array
+we will see a familiar error.
 
 ``` text
 warning: returning ‘int *’ from a function with return type ‘int’ makes integer from pointer without a cast
@@ -694,22 +709,21 @@ void multiply_values(int values[], int size, int multiplier) {
     /* Multiply each number in an array with a constant
      
     Parameters
-        values: Array with values to be added.
+        values: Array with values to be multiplied.
         size: The size of the array
         multiplier: Multiplier for the input array
     */
     for (int i = 0; i < size; i++) {
-        values[i] = values[i] * 2;
+        values[i] = values[i] * multiplier;
     }
 }
 
 int main() {
-    int my_values[] = {1, 2, 3};
-    size_t my_values_size = sizeof my_values / sizeof my_values[0];
+    int my_values[] = {1, 2, 3, 4};
     
-    multiply_values(my_values, my_values_size, 2);
+    multiply_values(my_values, 4, 2);
 
-    for (int i = 0; i < my_values_size; i++) {
+    for (int i = 0; i < 4; i++) {
         printf("%d", my_values[i]);
     }
 
@@ -761,7 +775,7 @@ void multiply_values(int values[], int size, int multiplier, int new_values[]) {
     /* Multiply each number in an array with a constant
      
     Parameters
-        values: Array with values to be added.
+        values: Array with values to be multiplied.
         size: The size of the array
         multiplier: Multiplier for the input array
         new_values: Array to store the new values
@@ -772,25 +786,27 @@ void multiply_values(int values[], int size, int multiplier, int new_values[]) {
 }
 
 int main() {
-    int my_values[] = {1, 2, 3};
-    size_t my_values_size = sizeof my_values / sizeof my_values[0];
-    int my_new_values[my_values_size];
+    int my_values[] = {1, 2, 3, 4};
+    int my_new_values[4];
     
-    multiply_values(my_values, my_values_size, 2, my_new_values);
+    multiply_values(my_values, 4, 2, my_new_values);
 
     // Print the original array
-    for (int i = 0; i < my_values_size; i++) {
+    for (int i = 0; i < 4; i++) {
         printf("%d", my_values[i]);
     }
     // Print the multiplied values array
     printf("\n");
-    for (int i = 0; i < my_values_size; i++) {
+    for (int i = 0; i < 4; i++) {
         printf("%d", my_new_values[i]);
     }
 
     return 0;
 }
 ```
+
+<!-- Are there any questions on this last part? -->
+<!-- turn to your neighbor -->
 
 **Q: Can you think of one thing we could improve above? I will give you
 a hint and say that it is related to the printing of the values.**
@@ -808,19 +824,21 @@ function.
 
 <br>
 
-That’s it! Those were all the new concept I wanted to introduce today,
-great job everyone! Let’s finish up by reviewing what we learned today.
+That’s it! Those were all the new concepts we are learning today, great
+job everyone! Let’s finish up by reviewing what we went through.
 
 # Which new skills did we learn today
 
--   Create functions that take arrays as inputs.
-    -   Arrays decay to pointers when passed as function input.
-    -   The notation `function(array[])` indicates that a function
-        expects an array pointer.
-    -   The array size must be calculated before it decays to a pointer.
--   Store computed values either in the original or a new array inside a
+1.  Create functions that take arrays as inputs.
+
+-   Arrays decay to pointers when passed as function input.
+-   The notation `function(array[])` indicates that a function expects
+    an array pointer.
+-   The array size must be calculated before it decays to a pointer.
+
+2.  Store computed values either in the original or a new array inside a
     function.
-    -   Modifications done to the pointer will overwrite the original
-        array.
-    -   If we want to avoid overwriting, we need to pass a second array
-        pointer indicating where to store the new values.
+
+-   Modifications done to the pointer will overwrite the original array.
+-   If we want to avoid overwriting, we need to pass a second array
+    pointer indicating where to store the new values.
